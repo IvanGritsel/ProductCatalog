@@ -1,0 +1,9 @@
+<head>
+    <title>Welcome!</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ asset('dist/main.js') }}"></script>
+</head>
+<body>
+<h1>{{ welcome }}</h1>
+<button type="submit" class="btn btn-outline-primary" onclick="window.location='{{ path('catalog.main') }}'">To catalog</button>
+</body>

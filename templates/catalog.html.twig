@@ -1,0 +1,34 @@
+<head>
+    <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ asset('dist/main.js') }}"></script>
+</head>
+<body class="body">
+{% block header %}
+    <div class="card card-rounded-4 text-black default-margin-abs header">
+        <img src="{{ asset('asset/logo.png') }}" alt="Logo" class="logo big-margin-abs"/>
+    </div>
+{% endblock %}
+{% block main_body %}
+    <div class="card card-rounded-4 text-black default-margin-abs body-main">
+        {% if products|length > 0 %}
+            <div class="scrollable-x">
+                <div class="products-container">
+                    {% for product in products %}
+                        <div class="card card-rounded-3 text-black product-card default-margin-abs"
+                             onclick="window.location='{{ path('catalog.product', {id: product.id}) }}'">
+                            <h4 class="small-margin-abs">{{ product.name }}</h4>
+                            <div class="no-scroll description-area small-margin-abs">
+                                {{ product.description }}
+                            </div>
+                            <h3 class="small-margin-abs">{{ product.priceByn / 100 }} BYN</h3>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <h2>There are no products</h2>
+        {% endif %}
+    </div>
+{% endblock %}
+</body>

@@ -1,0 +1,152 @@
+.body {
+    background-color: #eee;
+}
+
+.products-container {
+    height: 100%;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+}
+
+.logo {
+    height: 50%;
+    width: 25%;
+}
+
+.small-margin {
+    margin: 5%;
+}
+
+.default-margin {
+    margin: 10%;
+}
+
+.big-margin {
+    margin: 20%;
+}
+
+.small-margin-abs {
+    margin: 5px;
+}
+
+.default-margin-abs {
+    margin: 10px;
+}
+
+.big-margin-abs {
+    margin: 20px;
+}
+
+.product-card {
+    width: 25%;
+    height: 80%;
+}
+
+.product-card:hover {
+    background-color: #eee;
+}
+
+.description-area {
+    height: 50%;
+}
+
+.scrollable {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.scrollable-x {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.scrollable-y {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.no-scroll {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.header {
+    height: 15%;
+}
+
+.body-main {
+    height: 80%;
+}
+
+.product-block {
+    width: 50%;
+}
+
+.spacer-block {
+    width: 18%;
+}
+
+.price-block {
+    width: 30%;
+    height: 65%;
+}
+
+.display-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.display-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-whitespace {
+    margin-right: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-panel {
+    width: 30%;
+    height: 98%;
+    margin: 5px;
+}
+
+.table-panel {
+    width: 70%;
+    height: 98%;
+    margin: 5px;
+}
+
+.table-header {
+    display: flex;
+    flex-direction: row;
+    height: 10%;
+}
+
+.table-body-size {
+    margin: 10px;
+    width: 98%;
+}
+
+.active-option {
+    color: darkblue;
+}
+
+.inactive-option {
+    color: dimgray;
+}
+
+.input-size {
+    width: 95%;
+}
+
+.button-div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    justify-content: center;
+}

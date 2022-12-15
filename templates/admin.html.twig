@@ -1,0 +1,219 @@
+<head>
+    <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script src="{{ asset('/dist/main.js') }}"></script>
+</head>
+<body class="body display-flex-row">
+<div class="card rounded-4 text-black form-panel">
+    <p>Data source</p>
+    <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="table_switch">
+        <label for="table_switch" id="product_label"
+               class="form-check-label active-option">Products</label>
+        <label class="form-check-label" for="table_switch">/</label>
+        <label for="table_switch" id="service_label"
+               class="form-check-label inactive-option">Services</label>
+    </div>
+
+    <div>
+        <form id="product_form" method="POST" action="{{ path('admin.new.product') }}" class="display-flex-column">
+            <input type="hidden" id="product_id" name="id"/>
+            <input type="hidden" id="product_method" name="_method" value="POST"/>
+
+            <label for="product_name">Product name</label>
+            <input id="product_name" type="text" name="name" class="input-size small-margin-abs"/>
+
+            <label for="product_description">Product description</label>
+            <input id="product_description" type="text" name="description" class="input-size small-margin-abs"/>
+
+            <label for="product_manufacturer">Product manufacturer</label>
+            <input id="product_manufacturer" type="text" name="manufacturer" class="input-size small-margin-abs"/>
+
+            <label for="product_release_date">Release date</label>
+            <input id="product_release_date" type="date" name="releaseDate" class="input-size small-margin-abs"/>
+
+            <label for="product_price">Product price (BYN)</label>
+            <input id="product_price" type="text" name="priceByn" class="input-size small-margin-abs"/>
+
+            <select name="productType" id="product_type" class="form-select small-margin-abs input-size">
+                <option value="1">TV</option>
+                <option value="2">Laptop</option>
+                <option value="3">Phone</option>
+                <option value="4">Fridge</option>
+            </select>
+
+            <p class="hidden edit-warning default-margin-abs">Now editing. Clear form to cancel edit</p>
+
+            <div class="button-div">
+                <button id="submit" type="submit" class="btn btn-outline-success control-button default-margin-abs">
+                    Submit
+                </button>
+                <button id="reset_button" type="reset" class="btn btn-outline-danger control-button default-margin-abs clear-button">
+                    Clear form
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <form id="service_form" class="hidden" method="POST" action="{{ path('admin.new.service') }}">
+            <input type="hidden" id="service_id" name="id"/>
+            <input type="hidden" id="service_method" name="_method"/>
+
+            <label for="service_product">Product</label>
+            <select id="service_product" name="productId" class="form-select small-margin-abs input-size">
+                {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="service_service">Service</label>
+            <select id="service_service" name="serviceId" class="form-select small-margin-abs input-size">
+                {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="service_price">Price (BYN)</label>
+            <input id="service_price" name="price" class="input-size small-margin-abs"/>
+            <label for="service_term">Term</label>
+            <input id="service_term" type="number" name="term" class="input-size small-margin-abs"/>
+
+            <div class="button-div">
+                <button id="submit" type="submit" class="btn btn-outline-success control-button default-margin-abs">
+                    Submit
+                </button>
+                <button id="reset_button" type="reset" class="btn btn-outline-danger control-button default-margin-abs clear-button">
+                    Clear form
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="products_table" class="card rounded-4 text-black table-panel">
+    {% if products|length != 0 %}
+        <div class="table-header">
+            <h3 class="small-margin-abs">Products</h3>
+            <form method="POST"
+                  action="{# TODO #}"
+                  class="small-margin-abs hidden" id="delete_selected_products_form">
+                <div id="product_ids_to_delete"></div>
+                <button type="submit" id="delete_selected" class="btn btn-outline-danger">
+                    Delete selected
+                </button>
+            </form>
+        </div>
+
+        <div class="scrollable small-margin-abs">
+            <table class="table table-striped table-bordered table-body-size">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <input type="checkbox" id="check_uncheck_products" class="check_uncheck"/>
+                    </th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Manufacturer</th>
+                    <th scope="col">Release date</th>
+                    <th scope="col">Price (BYN)</th>
+                    <th scope="col">Product Type</th>
+                    <th scope="col">Controls</th>
+                </tr>
+                </thead>
+                <tbody id="product_table_body">
+                {% for product in products %}
+                    <tr id="product_{{ product.id }}">
+                        <td id="check"><input class="checkbox checkbox_products" type="checkbox"
+                                              value="{{ product.id }}"></td>
+                        <td id="name">{{ product.name }}</td>
+                        <td id="description">{{ product.description }}</td>
+                        <td id="manufacturer">{{ product.manufacturer }}</td>
+                        <td id="release_date">{{ product.releaseDate|date('Y-m-d') }}</td>
+                        <td id="price">{{ product.priceByn / 100 }}</td>
+                        <td id="type">{{ product.productType.name }}</td>
+                        <td>
+                            <div>
+                                <button type="button" class="btn btn-outline-warning product-edit-button small-margin"
+                                        value="{{ product.id }}">Edit
+                                </button>
+                                <form action="{{ path('admin.delete.product', {id: product.id}) }}" class="delete-form">
+{#                                    <input type="hidden" name="_method" value="DELETE">#}
+                                    <button type="submit" class="btn btn-outline-danger small-margin">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div>
+            <h3 class="big-margin">Nothing here</h3>
+        </div>
+    {% endif %}
+</div>
+
+<div id="service_table" class="card card-rounded-4 text-black table-panel hidden">
+    {% if services|length != 0 %}
+        <div class="table-header">
+            <h3 class="small-margin-abs">Services</h3>
+            <form method="POST"
+                  action="{# TODO #}"
+                  class="small-margin-abs hidden" id="delete_selected_services_form">
+                <div id="ids_to_delete"></div>
+                <button type="submit" id="delete_selected" class="btn btn-outline-danger">
+                    Delete selected
+                </button>
+            </form>
+        </div>
+        <div class="scrollable small-margin-abs">
+            <table class="table table-striped table-bordered table-body-size">
+                <thead>
+                <tr>
+                    <th scope="col">
+                        <input type="checkbox" id="check_uncheck_services" class="check_uncheck"/>
+                    </th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Service</th>
+                    <th scope="col">Price (BYN)</th>
+                    <th scope="col">Term (days)</th>
+                    <th scope="col">Controls</th>
+                </tr>
+                </thead>
+                <tbody id="service_table_body">
+                {% for service in productServices %}
+                    <tr id="service_{{ service.id }}">
+                        <td id="check"><input class="checkbox checkbox_services" type="checkbox"
+                                              value="{{ service.id }}"></td>
+                        <th id="product" data-id="{{ service.product.id }}">{{ service.product.name }}</th>
+                        <th id="service" data-id="{{ service.service.id }}">{{ service.service.name }}</th>
+                        <th id="price">{{ service.price / 100 }}</th>
+                        <th id="term">{{ service.term }}</th>
+                        <td>
+                            <div>
+                                <button type="button" class="btn btn-outline-warning service-edit-button small-margin"
+                                        value="{{ service.id }}">Edit
+                                </button>
+                                <form action="{{ path('admin.delete.service', {productId: service.product.id, serviceId: service.id}) }}"
+                                      class="delete-form">
+                                    <button type="submit" class="btn btn-outline-danger small-margin">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div>
+            <h3 class="big-margin">Nothing here</h3>
+        </div>
+    {% endif %}
+</div>
+
+</body>
