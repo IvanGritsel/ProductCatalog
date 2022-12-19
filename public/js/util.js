@@ -1,5 +1,5 @@
 $(document).ready(function () {
     $('.logo').on('click', function () {
-        window.location = '/catalog';
+        window.location = '/catalog/page/1';
     });
 })

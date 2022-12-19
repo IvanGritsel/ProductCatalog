@@ -3,4 +3,5 @@ import '../css/styles.css';
 
 import './productScripts.js';
 import './adminScripts.js';
+import './catalogScripts.js';
 import './util.js';

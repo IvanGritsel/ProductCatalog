@@ -5,29 +5,111 @@
 </head>
 <body class="body">
 {% block header %}
-    <div class="card card-rounded-4 text-black default-margin-abs header">
+    <div class="card card-rounded-4 text-black default-margin-abs header display-flex-row">
         <img src="{{ asset('asset/logo.png') }}" alt="Logo" class="logo big-margin-abs"/>
+        <div class="filters">
+            <div class="display-flex-column">
+                <div id="order" class="display-flex-row small-margin-abs form-group">
+                    <label for="order_criteria">Order by: </label>
+                    <select id="order_criteria" class="form-select">
+                        <option disabled selected>Select sorting criteria</option>
+                        <option value="name">Name</option>
+                        <option value="priceByn">Price</option>
+                        <option value="releaseDate">Release date</option>
+                        <option value="productType">Type</option>
+                        <option value="manufacturer">Manufacturer</option>
+                    </select>
+                    <button id="order_direction" class="btn btn-outline-dark" value="ASC">/\</button>
+                </div>
+                <div id="price_filter" class="display-flex-row small-margin-abs ">
+                    <label for="price_criteria">Price: </label>
+                    <button id="price_more_less" class="btn btn-outline-dark" value="<"><</button>
+                    <input type="number" id="price_criteria" style="width: available"/>
+                </div>
+            </div>
+            <div class="display-flex-column">
+                <div id="release_filter" class="display-flex-row small-margin-abs ">
+                    <label for="date_criteria">Release: </label>
+                    <button id="date_more_less" class="btn btn-outline-dark" value=">">After</button>
+                    <input type="date" id="date_criteria"/>
+                </div>
+                <div id="manufacturer_filter" class="display-flex-row small-margin-abs ">
+                    <label for="manufacturer_criteria">Manufacturer: </label>
+                    <input type="text" id="manufacturer_criteria"/>
+                </div>
+            </div>
+            <div class="display-flex-column">
+                <div id="type_filter" class="display-flex-row small-margin-abs ">
+                    <label for="type_criteria">Type: </label>
+                    <select id="type_criteria" class="form-select">
+                        <option disabled selected>Select Type: </option>
+                        <option value="1">TV</option>
+                        <option value="2">Laptop</option>
+                        <option value="3">Phone</option>
+                        <option value="4">Fridge</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <button id="apply_filter_btn" class="default-margin-abs btn btn-outline-primary">
+                Apply filter
+            </button>
+            <button id="clear_filters" class="default-margin-abs btn btn-outline-primary">
+                Clear filters
+            </button>
+        </div>
     </div>
 {% endblock %}
 {% block main_body %}
     <div class="card card-rounded-4 text-black default-margin-abs body-main">
         {% if products|length > 0 %}
-            <div class="scrollable-x">
-                <div class="products-container">
+            <div class="products-container">
+                <div class="product-row">
+                {% set range = 0 %}
                     {% for product in products %}
+                    {% if range < 5 %}
                         <div class="card card-rounded-3 text-black product-card default-margin-abs"
                              onclick="window.location='{{ path('catalog.product', {id: product.id}) }}'">
                             <h4 class="small-margin-abs">{{ product.name }}</h4>
-                            <div class="no-scroll description-area small-margin-abs">
+                            <p class="no-scroll description-area small-margin-abs">
                                 {{ product.description }}
-                            </div>
+                            </p>
                             <h3 class="small-margin-abs">{{ product.priceByn / 100 }} BYN</h3>
                         </div>
+                        {% endif %}
+                        {% set range = range + 1 %}
+                    {% endfor %}
+                </div>
+                {% set range = 0 %}
+                <div class="product-row">
+                    {% for product in products %}
+                    {% if range > 4 %}
+                        <div class="card card-rounded-3 text-black product-card default-margin-abs"
+                             onclick="window.location='{{ path('catalog.product', {id: product.id}) }}'">
+                            <h4 class="small-margin-abs">{{ product.name }}</h4>
+                            <p class="no-scroll description-area small-margin-abs">
+                                {{ product.description }}
+                            </p>
+                            <h3 class="small-margin-abs">{{ product.priceByn / 100 }} BYN</h3>
+                        </div>
+                        {% endif %}
+                        {% set range = range + 1 %}
                     {% endfor %}
                 </div>
             </div>
+            <div class="pages">
+                <button id="prev_btn" class="btn {% if page == 1 %}btn-outline-dark" disabled{% else %}btn-outline-primary"{% endif %}>
+                    <
+                </button>
+                <p class="default-margin-abs">{{ page }}</p>
+                <button id="next_btn" class="btn {% if page * 10 >= total %}btn-outline-dark" disabled{% else %}btn-outline-primary"{% endif %}>
+                    >
+                </button>
+            </div>
         {% else %}
-            <h2>There are no products</h2>
+            <h2 class="big-margin-abs">There are no products matching given parameters</h2>
         {% endif %}
     </div>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Product;
 use App\Entity\ProductService as Service;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 
 class ProductService
@@ -19,6 +20,16 @@ class ProductService
     public function getAllProducts(): array
     {
         return $this->productRepository->findAll();
+    }
+
+    public function getAllProductsPaginated(int $page, array $filters = []): Paginator
+    {
+//        $products = [];
+//        foreach ($this->productRepository->findByPage($page, $filters) as $product) {
+//            $products[] = $product;
+//        }
+//        return $products;
+        return $this->productRepository->findByPage($page, $filters);
     }
 
     public function getProductById(int $id): Product
