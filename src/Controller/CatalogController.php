@@ -21,17 +21,13 @@ class CatalogController extends AbstractController
     #[Route('/catalog', name: 'catalog.main', methods: ['GET'])]
     public function loadCatalog(): Response
     {
-        return $this->render('catalog.html.twig', [
-            'pageTitle' => 'Catalog',
-            'products' => $this->productService->getAllProducts(),
-        ]);
+        return $this->redirectToRoute('catalog.main.paginated', ['page' => 1]);
     }
 
     #[Route('/catalog/page/{page}', name: 'catalog.main.paginated', methods: ['GET'])]
     public function loadPaginatedCatalog(Request $request, int $page): Response
     {
         $filters = $request->query->all();
-//        return new JsonResponse($this->productService->getAllProductsPaginated($page, $filters));
         $products = $this->productService->getAllProductsPaginated($page, $filters);
         return $this->render('catalog.html.twig', [
             'pageTitle' => 'Catalog',
