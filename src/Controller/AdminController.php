@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Mapper\ProductMapper;
 use App\Mapper\ProductServiceMapper;
+use App\Service\AwsService;
 use App\Service\ServiceService;
 use App\Service\ProductService;
+use Aws\Exception\AwsException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,15 +19,17 @@ class AdminController extends AbstractController
 {
     private ProductService $productService;
     private ServiceService $serviceService;
+    private AwsService $awsService;
 
-    public function __construct(ProductService $productService, ServiceService $serviceService)
+    public function __construct(ProductService $productService, ServiceService $serviceService, AwsService $awsService)
     {
         $this->productService = $productService;
         $this->serviceService = $serviceService;
+        $this->awsService = $awsService;
     }
 
     #[Route('/admin', name: 'admin.main', methods: ['GET'])]
-    public function loadAdmin(): Response
+    public function loadAdmin(array $additional = []): Response
     {
         $products = $this->productService->getAllProducts();
         $pServices = [];
@@ -38,7 +44,8 @@ class AdminController extends AbstractController
             'pageTitle' => 'Admin',
             'products' => $products,
             'productServices' => $pServices,
-            'services' => $services
+            'services' => $services,
+            'additional' => $additional,
         ]);
     }
 
@@ -75,7 +82,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/update/service/{productId}/{serviceId}', name: 'admin.update.service', methods: ['PUT'])]
-    public function updateService(Request $request,int $productId, int $serviceId): Response
+    public function updateService(Request $request, int $productId, int $serviceId): Response
     {
         $serviceArray = $request->request->all();
         $product = $this->productService->getProductById($productId);
@@ -99,5 +106,22 @@ class AdminController extends AbstractController
         $this->productService->deleteProductService($product, $serviceId);
 
         return $this->loadAdmin();
+    }
+
+    #[Route('/admin/export', name: 'admin.export', methods: ['GET'])]
+    public function exportCatalog(): Response
+    {
+        try {
+            $path = $this->awsService->exportCatalog();
+            return new JsonResponse([
+                'awsResource' => $path,
+            ]);
+        } catch (Exception $e) {
+            return new JsonResponse([
+                'error' => $e->getCode(),
+                'message' => $e->getMessage(),
+                'back' => 'admin.main',
+            ]);
+        }
     }
 }

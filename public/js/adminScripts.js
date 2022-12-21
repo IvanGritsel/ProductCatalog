@@ -144,7 +144,7 @@ $(document).ready(function () {
                 }
             });
         } else {
-            this.submit();
+            $(this).submit();
         }
     });
 
@@ -154,10 +154,8 @@ $(document).ready(function () {
             let form = $(this);
             let serviceId = $('#service_id').val();
             let productId = $('#service_product').val();
-            // console.log(productId + ' ' + form.serialize());
-            // console.log(form);
             $.ajax({
-                url: `admin/update/service/${productId}/${serviceId}`,
+                url: `/admin/update/service/${productId}/${serviceId}`,
                 type: 'PUT',
                 data: form.serialize(),
                 success: function (data) {
@@ -169,7 +167,7 @@ $(document).ready(function () {
                 }
             })
         } else {
-            this.submit();
+            $(this).submit();
         }
     })
 
@@ -180,6 +178,20 @@ $(document).ready(function () {
         $('#product_method').val('POST');
         $('#service_method').val('POST');
     });
+
+    $('#export_button').on('click', function () {
+        $.ajax({
+            url: '/admin/export',
+            type: 'GET',
+
+            success: function (data) {
+                alert(`Success. Resource: ${data.awsResource}`);
+            },
+            error: function (data) {
+                alert('Error ' + data.error + ' ' + data.message);
+            }
+        })
+    })
 });
 
 function disableUnselected(select) {
