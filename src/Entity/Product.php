@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Entity\Enum\ProductType;
 use App\Repository\ProductRepository;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -29,7 +28,7 @@ class Product implements JsonSerializable
     private ?string $manufacturer = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?DateTimeInterface $releaseDate = null;
+    private ?\DateTimeInterface $releaseDate = null;
 
     #[ORM\Column]
     private ?int $priceByn = null;
@@ -93,12 +92,12 @@ class Product implements JsonSerializable
         return $this;
     }
 
-    public function getReleaseDate(): ?DateTimeInterface
+    public function getReleaseDate(): ?\DateTimeInterface
     {
         return $this->releaseDate;
     }
 
-    public function setReleaseDate(DateTimeInterface $releaseDate): self
+    public function setReleaseDate(\DateTimeInterface $releaseDate): self
     {
         $this->releaseDate = $releaseDate;
 
