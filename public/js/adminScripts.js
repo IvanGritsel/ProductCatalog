@@ -185,6 +185,7 @@ $(document).ready(function () {
             type: 'GET',
 
             success: function (data) {
+                console.log(data);
                 alert(`Success. Resource: ${data.awsResource}`);
             },
             error: function (data) {
