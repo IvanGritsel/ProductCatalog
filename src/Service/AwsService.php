@@ -15,7 +15,6 @@ class AwsService
     private ProductRepository $productRepository;
     private S3Client $s3Client;
     private SesClient $sesClient;
-    private Result $bucket;
 
     public function __construct(ProductRepository $productRepository)
     {
@@ -41,7 +40,7 @@ class AwsService
                 'secret' => '1234',
             ],
         ]);
-        $this->bucket = $this->s3Client->createBucket([
+        $this->s3Client->createBucket([
             'Bucket' => 'servicebucket',
         ]);
     }

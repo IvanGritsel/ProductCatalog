@@ -181,9 +181,8 @@ $(document).ready(function () {
 
     $('#export_button').on('click', function () {
         $.ajax({
-            url: '/admin/export',
+            url: '/aws/export',
             type: 'GET',
-
             success: function (data) {
                 console.log(data);
                 alert(`Success. Resource: ${data.awsResource}`);

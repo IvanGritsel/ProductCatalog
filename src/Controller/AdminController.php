@@ -19,13 +19,11 @@ class AdminController extends AbstractController
 {
     private ProductService $productService;
     private ServiceService $serviceService;
-    private AwsService $awsService;
 
-    public function __construct(ProductService $productService, ServiceService $serviceService, AwsService $awsService)
+    public function __construct(ProductService $productService, ServiceService $serviceService)
     {
         $this->productService = $productService;
         $this->serviceService = $serviceService;
-        $this->awsService = $awsService;
     }
 
     #[Route('/admin', name: 'admin.main', methods: ['GET'])]
@@ -106,22 +104,5 @@ class AdminController extends AbstractController
         $this->productService->deleteProductService($product, $serviceId);
 
         return $this->loadAdmin();
-    }
-
-    #[Route('/admin/export', name: 'admin.export', methods: ['GET'])]
-    public function exportCatalog(): Response
-    {
-        try {
-            $path = $this->awsService->exportCatalog();
-            return new JsonResponse([
-                'awsResource' => $path,
-            ]);
-        } catch (Exception $e) {
-            return new JsonResponse([
-                'error' => $e->getCode(),
-                'message' => $e->getMessage(),
-                'back' => 'admin.main',
-            ]);
-        }
     }
 }
