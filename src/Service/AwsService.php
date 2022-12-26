@@ -30,7 +30,6 @@ class AwsService
             ],
         ]);
         $this->sesClient = new SesClient([
-//            'profile' => 'default',
             'version' => 'latest',
             'region' => 'us-east-1',
             'use_path_style_endpoint' => true,

@@ -5,7 +5,14 @@
 </head>
 <body class="body display-flex-row">
 <div class="card rounded-4 text-black form-panel">
-    <p>Data source</p>
+    <div class="display-flex-row">
+        <button type="button" id="logout_button" class="btn btn-outline-danger"
+                onclick="window.location = '{{ path('admin.logout') }}'">Logout
+        </button>
+        <button type="button" id="users_button" class="btn btn-outline-primary" style="margin-left: 5px"
+                onclick="window.location = '{{ path('admin.users') }}'">Users awaiting privileges
+        </button>
+    </div>
     <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="table_switch">
         <label for="table_switch" id="product_label"
@@ -48,12 +55,15 @@
                 <button id="submit" type="submit" class="btn btn-outline-success control-button default-margin-abs">
                     Submit
                 </button>
-                <button id="reset_button" type="reset" class="btn btn-outline-danger control-button default-margin-abs clear-button">
+                <button id="reset_button" type="reset"
+                        class="btn btn-outline-danger control-button default-margin-abs clear-button">
                     Clear form
                 </button>
             </div>
         </form>
-        <button type="button" class="btn btn-outline-primary default-margin-abs" id="export_button">Export catalog to AWS</button>
+        <button type="button" class="btn btn-outline-primary default-margin-abs" id="export_button">Export catalog to
+            AWS
+        </button>
     </div>
 
     <div>
@@ -83,7 +93,8 @@
                 <button id="submit" type="submit" class="btn btn-outline-success control-button default-margin-abs">
                     Submit
                 </button>
-                <button id="reset_button" type="reset" class="btn btn-outline-danger control-button default-margin-abs clear-button">
+                <button id="reset_button" type="reset"
+                        class="btn btn-outline-danger control-button default-margin-abs clear-button">
                     Clear form
                 </button>
             </div>
@@ -137,7 +148,7 @@
                                         value="{{ product.id }}">Edit
                                 </button>
                                 <form action="{{ path('admin.delete.product', {id: product.id}) }}" class="delete-form">
-{#                                    <input type="hidden" name="_method" value="DELETE">#}
+                                    {#                                    <input type="hidden" name="_method" value="DELETE"> #}
                                     <button type="submit" class="btn btn-outline-danger small-margin">
                                         Delete
                                     </button>

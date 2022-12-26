@@ -1,0 +1,42 @@
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ asset('dist/main.js') }}"></script>
+</head>
+<body>
+<div class="card card-rounded-3 text-black small-margin">
+    {% if users|length != 0 %}
+        <table class="table table-striped table-bordered default-margin-abs">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Controls</th>
+            </tr>
+            </thead>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <button class="btn btn-outline-success"
+                                onclick="window.location = '{{ path('admin.grant', {id: user.id}) }}'">Grant
+                        </button>
+                        <button class="btn btn-outline-danger"
+                                onclick="window.location = '{{ path('admin.refuse', {id: user.id}) }}'">Refuse
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            <tbody>
+
+            </tbody>
+        </table>
+    {% else %}
+        <h1 class="default-margin-abs">No users awaiting privileges right now</h1>
+    {% endif %}
+    <button type="button" class="btn btn-outline-primary small-margin-abs"
+            onclick="window.location = '{{ path('admin.main') }}'">Back
+    </button>
+</div>
+</body>

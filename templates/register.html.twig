@@ -1,0 +1,21 @@
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ asset('dist/main.js') }}"></script>
+</head>
+<body class="no-scroll">
+{% if error is defined %}
+    <div>{{ error }}</div>
+{% endif %}
+<div class="card card-rounded-3 big-margin">
+    <form action="{{ path('admin.register.submit') }}" method="POST" class="display-flex-column">
+        <label for="username" class="default-margin-abs">Email:</label>
+        <input type="email" class="default-margin-abs" id="username" name="username"/>
+        <label for="password" class="default-margin-abs">Password:</label>
+        <input type="password" class="default-margin-abs" id="password" name="password"/>
+
+        <button type="submit" id="submit_register" class="btn btn-outline-primary default-margin-abs">Register</button>
+        <a href="{{ path('admin.login') }}">Already have an account?</a>
+    </form>
+</div>
+</body>

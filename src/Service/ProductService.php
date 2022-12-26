@@ -24,11 +24,6 @@ class ProductService
 
     public function getAllProductsPaginated(int $page, array $filters = []): Paginator
     {
-//        $products = [];
-//        foreach ($this->productRepository->findByPage($page, $filters) as $product) {
-//            $products[] = $product;
-//        }
-//        return $products;
         return $this->productRepository->findByPage($page, $filters);
     }
 

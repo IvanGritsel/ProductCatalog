@@ -25,6 +25,7 @@ final class Version20221207081503 extends AbstractMigration
         $this->addSql('CREATE TABLE service (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(45) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE product_service ADD CONSTRAINT FK_304481624584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE product_service ADD CONSTRAINT FK_30448162ED5CA9E6 FOREIGN KEY (service_id) REFERENCES service (id)');
+        $this->addSql("INSERT INTO service (id, name) VALUES (1, 'Warranty'), (2, 'Delivery'), (3, 'Installation'), (4, 'Setup')");
     }
 
     public function down(Schema $schema): void

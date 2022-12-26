@@ -1,0 +1,33 @@
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ asset('dist/main.js') }}"></script>
+</head>
+<body class="no-scroll">
+{% if error is defined and error != null %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+{% if message is defined %}
+    <div>{{ message }}</div>
+{% endif %}
+<div class="card card-rounded-3 big-margin">
+    <form action="{{ path('admin.login') }}" method="POST" class="display-flex-column">
+        <label for="username" class="default-margin-abs">Email:</label>
+        <input type="email" class="default-margin-abs" id="username" name="_username"
+               {% if lastUsername is defined and lastUsername != null %}
+               value="{{ lastUsername }}"
+               {% endif %}
+        />
+        <label for="password" class="default-margin-abs">Password:</label>
+        <input type="password" class="default-margin-abs" id="password" name="_password"/>
+        <input type="hidden" class="default-margin-abs" name="_target_path" value="{{ path('admin.main') }}">
+        <label class="default-margin-abs">
+            <input type="checkbox" name="_remember_me"/>
+            Keep me logged in
+        </label>
+
+        <button type="submit" id="submit_login" class="btn btn-outline-primary default-margin-abs">Login</button>
+        <a href="{{ path('admin.register') }}">Dont have an account?</a>
+    </form>
+</div>
+</body>
