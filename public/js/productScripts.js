@@ -6,12 +6,20 @@ $(document).ready(function () {
 
     $('.service-checkbox').on('change', function (event) {
         let checkbox = event.target;
+        let currency = $('#currency').val();
+        let oldPrice = $(`#total-${currency}`).html();
         let newPrice;
         if ($(checkbox).is(':checked')) {
-            newPrice = parseFloat($('#total_price').html()) + ($(checkbox).val() / 100);
+            newPrice = parseFloat(oldPrice) + ($(checkbox).val() / 100);
         } else {
-            newPrice = parseFloat($('#total_price').html()) - ($(checkbox).val() / 100);
+            newPrice = parseFloat(oldPrice) - ($(checkbox).val() / 100);
         }
-        $('#total_price').html(newPrice);
+        $(`#total-${currency}`).html(newPrice);
+    });
+
+    $('#currency').on('change', function () {
+        let currency = $('#currency').val();
+        $('.service-checkbox').hide();
+        $(`.service-checkbox-${currency}`).show();
     })
 })

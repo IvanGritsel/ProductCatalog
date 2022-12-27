@@ -19,28 +19,57 @@
         </div>
         <div class="spacer-block"></div>
         <div class="card card-rounded-4 default-margin-abs price-block">
-            <h3 id="base_price" class="default-margin-abs">Product price: {{ product.priceByn / 100 }} BYN</h3>
+            <div class="display-flex-row">
+                <h3 class="default-margin-abs">Product price: </h3>
+                <h3 class="default-margin-abs  pricetag pricetag-byn">{{ product.priceByn / 100 }}</h3>
+                <h3 class="default-margin-abs pricetag pricetag-usd hidden">{{ (product.priceByn / 100 / conversionRates['USD'])|round(1, 'ceil') }}</h3>
+                <h3 class="default-margin-abs pricetag pricetag-eur hidden">{{ (product.priceByn / 100 / conversionRates['EUR'])|round(1, 'ceil') }}</h3>
+                <h3 class="default-margin-abs pricetag pricetag-rub hidden">{{ (product.priceByn / 100 / conversionRates['RUB'])|round(1, 'ceil') }}</h3>
+
+                <select id="currency" class="form-select" style="width: fit-content">
+                    <option value="byn" selected>BYN</option>
+                    <option value="usd">USD</option>
+                    <option value="eur">EUR</option>
+                    <option value="rub">RUB</option>
+                </select>
+            </div>
             <u id="show_additional_options" class="default-margin-abs">Show additional services</u>
             <div id="services_div" class="default-margin-abs hidden">
                 {% if product.services|length > 0 %}
                     <div class="display-flex-row">
                         <h3 class="text-whitespace">Total price:</h3>
-                        <h3 id="total_price" class="text-whitespace">{{ product.priceByn / 100 }}</h3>
-                        <h3>BYN</h3>
+                        <h3 id="total-byn" class="text-whitespace pricetag pricetag-byn">{{ product.priceByn / 100 }}</h3>
+                        <h3 id="total-usd" class="text-whitespace pricetag pricetag-usd hidden">{{ (product.priceByn / 100 / conversionRates['USD'])|round(1, 'ceil') }}</h3>
+                        <h3 id="total-eur" class="text-whitespace pricetag pricetag-eur hidden">{{ (product.priceByn / 100 / conversionRates['EUR'])|round(1, 'ceil') }}</h3>
+                        <h3 id="total-rub" class="text-whitespace pricetag pricetag-rub hidden">{{ (product.priceByn / 100 / conversionRates['RUB'])|round(1, 'ceil') }}</h3>
                     </div>
                     <div class="display-flex-column">
                         {% for service in product.services %}
                             <div class="display-flex-row">
                                 <input type="checkbox" id="{{ service.service.name }}"
-                                       class="service-checkbox"
-                                name="{{ service.service.name }}" value="{{ service.price }}">
-                                <label for="{{ service.service.name }}" class="small-margin-abs">{{ service.service.name }}</label>
-                                <p class="small-margin-abs">Price: {{ service.price / 100 }}BYN. Term: {{ service.term }} days</p>
+                                       class="service-checkbox service-checkbox-byn"
+                                       name="{{ service.service.name }}" value="{{ service.price }}">
+                                <input type="checkbox" id="{{ service.service.name }}"
+                                       class="service-checkbox service-checkbox-usd hidden"
+                                       name="{{ service.service.name }}" value="{{ (service.price / conversionRates['USD'])|round(1, 'ceil') }}">
+                                <input type="checkbox" id="{{ service.service.name }}"
+                                       class="service-checkbox service-checkbox-eur hidden"
+                                       name="{{ service.service.name }}" value="{{ (service.price / conversionRates['EUR'])|round(1, 'ceil') }}">
+                                <input type="checkbox" id="{{ service.service.name }}"
+                                       class="service-checkbox service-checkbox-rub hidden"
+                                       name="{{ service.service.name }}" value="{{ (service.price / conversionRates['RUB'])|round(1, 'ceil') }}">
+                                <label for="{{ service.service.name }}"
+                                       class="small-margin-abs">{{ service.service.name }}</label>
+                                <p class="small-margin-abs pricetag pricetag-byn">Price: {{ service.price / 100 }}BYN.</p>
+                                <p class="small-margin-abs pricetag pricetag-usd hidden">Price: {{ (service.price / 100 / conversionRates['USD'])|round(1, 'ceil') }}USD.</p>
+                                <p class="small-margin-abs pricetag pricetag-eur hidden">Price: {{ (service.price / 100 / conversionRates['EUR'])|round(1, 'ceil') }}EUR.</p>
+                                <p class="small-margin-abs pricetag pricetag-rub hidden">Price: {{ (service.price / 100 / conversionRates['RUB'])|round(1, 'ceil') }}Rub.</p>
+                                <p class="small-margin-abs"> Term: {{ service.term }} days</p>
                             </div>
                         {% endfor %}
                     </div>
                 {% else %}
-                    <h3>No additional services available for this product</h3>
+                    <h4>No additional services available for this product</h4>
                 {% endif %}
             </div>
         </div>

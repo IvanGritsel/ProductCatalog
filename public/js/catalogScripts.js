@@ -86,5 +86,12 @@ $(document).ready(function () {
         let curPage = pathBits[pathBits.length - 1];
         pathBits[pathBits.length - 1] = (parseInt(curPage) + 1).toString();
         window.location = pathBits.join('/') + ((typeof query === undefined) ? ('?' + query) : '');
+    });
+
+    $('#currency').on('change', function () {
+        $('.pricetag').hide();
+        let selectedCurrency = $('#currency').val();
+        console.log(`event ${selectedCurrency}`);
+        $(`.pricetag-${selectedCurrency}`).show();
     })
 })

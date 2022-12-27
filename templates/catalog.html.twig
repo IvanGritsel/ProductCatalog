@@ -42,7 +42,7 @@
                 <div id="type_filter" class="display-flex-row small-margin-abs ">
                     <label for="type_criteria">Type: </label>
                     <select id="type_criteria" class="form-select">
-                        <option disabled selected>Select Type: </option>
+                        <option disabled selected>Select Type:</option>
                         <option value="1">TV</option>
                         <option value="2">Laptop</option>
                         <option value="3">Phone</option>
@@ -76,7 +76,10 @@
                             <p class="no-scroll description-area small-margin-abs">
                                 {{ product.description }}
                             </p>
-                            <h3 class="small-margin-abs">{{ product.priceByn / 100 }} BYN</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-byn">{{ product.priceByn / 100 }} BYN</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-usd hidden">{{ (product.priceByn / 100 / conversionRates['USD'])|round(2, 'ceil') }} USD</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-eur hidden">{{ (product.priceByn / 100 / conversionRates['EUR'])|round(2, 'ceil') }} EUR</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-rub hidden">{{ (product.priceByn / 100 / conversionRates['RUB'])|round(2, 'ceil') }} RUB</h3>
                         </div>
                         {% endif %}
                         {% set range = range + 1 %}
@@ -92,14 +95,29 @@
                             <p class="no-scroll description-area small-margin-abs">
                                 {{ product.description }}
                             </p>
-                            <h3 class="small-margin-abs">{{ product.priceByn / 100 }} BYN</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-byn">{{ product.priceByn / 100 }} BYN</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-usd hidden">{{ (product.priceByn / 100 / conversionRates['USD'])|round(1, 'ceil') }} USD</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-eur hidden">{{ (product.priceByn / 100 / conversionRates['EUR'])|round(1, 'ceil') }} EUR</h3>
+                            <h3 class="small-margin-abs pricetag pricetag-rub hidden">{{ (product.priceByn / 100 / conversionRates['RUB'])|round(1, 'ceil') }} RUB</h3>
                         </div>
                         {% endif %}
                         {% set range = range + 1 %}
                     {% endfor %}
                 </div>
             </div>
-            <div class="pages">
+            <div>
+                <div>
+                    <label class="default-margin-abs">
+                    Currency
+                        <select id="currency" class="form-select">
+                            <option value="byn" selected>BYN</option>
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                            <option value="rub">RUB</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="pages">
                 <button id="prev_btn" class="btn {% if page == 1 %}btn-outline-dark" disabled{% else %}btn-outline-primary"{% endif %}>
                     <
                 </button>
@@ -107,6 +125,7 @@
                 <button id="next_btn" class="btn {% if page * 10 >= total %}btn-outline-dark" disabled{% else %}btn-outline-primary"{% endif %}>
                     >
                 </button>
+            </div>
             </div>
         {% else %}
             <h2 class="big-margin-abs">There are no products matching given parameters</h2>
