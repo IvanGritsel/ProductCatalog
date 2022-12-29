@@ -5,11 +5,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name:
-        run: |
-          echo 'Running test step'
-          composer install
-          npx webpack --config webpack.config.js
+      - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+        with:
+          php-version: '8.1'
+      - uses: actions/checkout@v3
+      - name: Copy .env.test.local
+        run: php -r "file_exists('.env.test.local') || copy('.env.test', 'env.test.local');"
+      - name: Cache composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Install dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Execute tests
+        run: vendor/bin/phpunit
   deploy:
     runs-on: ubuntu-latest
     steps:
