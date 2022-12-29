@@ -6,6 +6,8 @@ use App\Entity\Enum\ProductType;
 use App\Entity\Product;
 use App\Entity\ProductService as PService;
 use App\Entity\Service;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\ProductService;
 use App\Service\ServiceService;
 use DateTime;
@@ -16,6 +18,7 @@ class AdminControllerTest extends WebTestCase
     private array $products;
     private Product $product;
     private array $services;
+    private User $user;
 
     public function setUp(): void
     {
@@ -66,7 +69,12 @@ class AdminControllerTest extends WebTestCase
     public function testLoadAdmin()
     {
         $client = static::createClient();
+
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
@@ -89,6 +97,10 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
@@ -122,6 +134,10 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
@@ -154,6 +170,10 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
@@ -191,6 +211,10 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
@@ -222,6 +246,10 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
@@ -247,6 +275,10 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $userRepository = $container->get(UserRepository::class);
+
+        $user = $userRepository->find(1);
+        $client->loginUser($user, 'admin');
 
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
