@@ -1,0 +1,17 @@
+name: Deployment
+run-name: deployment action
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        echo 'Running test step'
+        composer install
+        npx webpack --config webpack.config.js
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      run: |
+        echo 'Running deploy step'
+        echo 'nothing here yet'
