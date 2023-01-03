@@ -1,6 +1,6 @@
 name: Deployment
 run-name: deployment action
-on: [push]
+on: [ push ]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -21,7 +21,19 @@ jobs:
             ${{ runner.os }}-php-
       - name: Install dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Create Database
+        run: |
+          mkdir -p data
+          touch data/database.sqlite
+      - name: Setup database for test
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+        run: |
+          bin/console doctrine:database:create
+          bin/console doctrine:migrations:migrate
       - name: Execute tests
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: vendor/bin/phpunit
   deploy:
     runs-on: ubuntu-latest
