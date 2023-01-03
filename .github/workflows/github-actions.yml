@@ -30,6 +30,7 @@ jobs:
         with:
           mysql database: product_base
           mysql root password: 1234
+      - name: Migrate database
         run: bin/console doctrine:migrations:migrate
 #        run: |
 #          mkdir -p data
