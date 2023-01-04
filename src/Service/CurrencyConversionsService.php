@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\CurrencyConversions;
 use App\Repository\CurrencyConversionsRepository;
+use SimpleXMLElement;
 
 class CurrencyConversionsService
 {
@@ -25,8 +26,16 @@ class CurrencyConversionsService
         return $rates != null ? $rates : false;
     }
 
-    public function saveRates(CurrencyConversions $currencyConversions): void
+    public function saveRates(SimpleXMLElement $parsedXml): CurrencyConversions
     {
-        $this->conversionsRepository->save($currencyConversions, true);
+        $conversionsArray = [];
+        $conversionsArray['USD'] = preg_replace('/(buy=\")|(")/', '', $parsedXml->filials->filial[0]->rates->value[0]['buy']->asXML());
+        $conversionsArray['EUR'] = preg_replace('/(buy=\")|(")/', '', $parsedXml->filials->filial[0]->rates->value[1]['buy']->asXML());
+        $conversionsArray['RUB'] = preg_replace('/(buy=\")|(")/', '', $parsedXml->filials->filial[0]->rates->value[2]['buy']->asXML());
+        $conversionsEntity = new CurrencyConversions();
+        $conversionsEntity->setRates($conversionsArray);
+        $conversionsEntity->setDate(new DateTime(\date('Y-m-d')));
+        $this->conversionsRepository->save($conversionsEntity, true);
+        return $conversionsEntity;
     }
 }

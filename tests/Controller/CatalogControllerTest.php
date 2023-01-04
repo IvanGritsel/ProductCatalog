@@ -2,10 +2,12 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\CurrencyConversions;
 use App\Entity\Enum\ProductType;
 use App\Entity\Product;
 use App\Entity\ProductService as PService;
 use App\Entity\Service;
+use App\Service\CurrencyConversionsService;
 use App\Service\ProductService;
 use DateTime;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -15,6 +17,7 @@ class CatalogControllerTest extends WebTestCase
 {
     private array $products;
     private Product $product;
+    private CurrencyConversions $conversions;
 
     public function setUp(): void
     {
@@ -51,6 +54,15 @@ class CatalogControllerTest extends WebTestCase
 
         $this->products = [$product, $productWithService];
         $this->product = $productWithService;
+
+        $conversions = new CurrencyConversions();
+        $conversions->setDate(DateTime::createFromFormat('Y-m-d', date('Y-m-d')));
+        $conversions->setRates([
+            'USD' => 1,
+            'EUR' => 1,
+            'RUB' => 1,
+        ]);
+        $this->conversions = $conversions;
     }
 
     public function testLoadCatalog()
@@ -61,14 +73,17 @@ class CatalogControllerTest extends WebTestCase
         $productService = $this->createMock(ProductService::class);
         $productService->expects(self::once())
             ->method('getAllProductsPaginated');
-//            ->willReturn($this->products);
+        $conversionsService = $this->createMock(CurrencyConversionsService::class);
+        $conversionsService->expects(self::once())
+            ->method('getCurrentRates')
+            ->willReturn($this->conversions);
 
         $container->set(ProductService::class, $productService);
+        $container->set(CurrencyConversionsService::class, $conversionsService);
 
         $crawler = $client->request('GET', '/catalog/page/1');
 
         $this->assertResponseIsSuccessful();
-//        $this->assertSelectorTextContains('h4', 'name1');
     }
 
     public function testLoadProductPage()

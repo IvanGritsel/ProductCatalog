@@ -66,15 +66,9 @@ class CatalogController extends AbstractController
             $client = new Client();
             $res = $client->getAsync('https://bankdabrabyt.by/export_courses.php')->wait();
             $parsedXml = new SimpleXMLElement($res->getBody());
-            $conversionsArray = [];
-            $conversionsArray['USD'] = preg_replace('/(buy=\")|(")/', '', $parsedXml->filials->filial[0]->rates->value[0]['buy']->asXML());
-            $conversionsArray['EUR'] = preg_replace('/(buy=\")|(")/', '', $parsedXml->filials->filial[0]->rates->value[1]['buy']->asXML());
-            $conversionsArray['RUB'] = preg_replace('/(buy=\")|(")/', '', $parsedXml->filials->filial[0]->rates->value[2]['buy']->asXML());
-            $conversionsEntity = new CurrencyConversions();
-            $conversionsEntity->setRates($conversionsArray);
-            $conversionsEntity->setDate(new DateTime(\date('Y-m-d')));
-            $this->conversionsService->saveRates($conversionsEntity);
-            return $conversionsArray;
+
+            $conversions = $this->conversionsService->saveRates($parsedXml);
+            return $conversions->getRates();
         }
     }
 }
