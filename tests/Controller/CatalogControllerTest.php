@@ -96,8 +96,13 @@ class CatalogControllerTest extends WebTestCase
             ->method('getProductById')
             ->with(2)
             ->willReturn($this->product);
+        $conversionsService = $this->createMock(CurrencyConversionsService::class);
+        $conversionsService->expects(self::once())
+            ->method('getCurrentRates')
+            ->willReturn($this->conversions);
 
         $container->set(ProductService::class, $productService);
+        $container->set(CurrencyConversionsService::class, $conversionsService);
 
         $crawler = $client->request('GET', '/catalog/product/2');
 
