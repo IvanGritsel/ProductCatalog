@@ -23,15 +23,15 @@ jobs:
         run: |
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 #          echo ${{ runner.os }}
-      - name: Shutdown mysql
-        run: sudo service mysql stop
-      - name: Create Database
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql database: product_base
-          mysql root password: 1234
-      - name: Migrate database
-        run: bin/console doctrine:migrations:migrate
+#      - name: Shutdown mysql
+#        run: sudo service mysql stop
+#      - name: Create Database
+#        uses: mirromutth/mysql-action@v1.1
+#        with:
+#          mysql database: product_base
+#          mysql root password: 1234
+#      - name: Migrate database
+#        run: bin/console doctrine:migrations:migrate
 #        run: |
 #          mkdir -p data
 #          touch data/database.sqlite
@@ -45,6 +45,7 @@ jobs:
 #          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: vendor/bin/phpunit
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name:

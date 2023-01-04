@@ -7,6 +7,8 @@ use App\Entity\Product;
 use App\Entity\ProductService as PService;
 use App\Entity\Service;
 use App\Entity\User;
+use App\Repository\ProductRepository;
+use App\Repository\ServiceRepository;
 use App\Repository\UserRepository;
 use App\Service\ProductService;
 use App\Service\ServiceService;
@@ -19,6 +21,7 @@ class AdminControllerTest extends WebTestCase
     private Product $product;
     private array $services;
     private User $user;
+    private UserRepository $userRepository;
 
     public function setUp(): void
     {
@@ -64,6 +67,19 @@ class AdminControllerTest extends WebTestCase
         $this->products = [$product, $productWithService];
         $this->services = [$actualService];
         $this->product = $productNoId;
+
+        $user = new User();
+        $user
+            ->setId(1)
+            ->setEmail('mail@mail.com')
+            ->setPassword('1234')
+            ->setRoles(['ROLE_ADMIN']);
+        $userRepository = $this->createMock(UserRepository::class);
+        $userRepository->expects(self::any())
+            ->method('find')
+//            ->with(1)
+            ->willReturn($user);
+        $this->userRepository = $userRepository;
     }
 
     public function testLoadAdmin()
@@ -71,6 +87,7 @@ class AdminControllerTest extends WebTestCase
         $client = static::createClient();
 
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
@@ -97,6 +114,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
@@ -134,6 +152,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
@@ -170,6 +189,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
@@ -211,6 +231,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
@@ -246,6 +267,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
@@ -275,6 +297,7 @@ class AdminControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = self::getContainer();
+        $container->set(UserRepository::class, $this->userRepository);
         $userRepository = $container->get(UserRepository::class);
 
         $user = $userRepository->find(1);
