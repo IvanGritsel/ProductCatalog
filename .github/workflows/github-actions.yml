@@ -31,4 +31,4 @@ jobs:
       - name: Deploy application
         run: |
           echo "Starting application in docker container"
-          docker-compose --file=./docker-compose.yml build --progress tty --parallel --pull
+          docker-compose --file=docker-compose.yml build --progress tty --parallel --pull
