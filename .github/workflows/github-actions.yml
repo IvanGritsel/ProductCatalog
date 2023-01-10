@@ -39,6 +39,8 @@ jobs:
           echo "Startup complete"
       - name: Deploy application
         run: |
-          sudo systemctl stop mysql
-          sudo systemctl stop apache2
-          sudo docker compose up --build -d
+          echo "Stopping services that may occupy needed ports"
+          service mysql stop
+          service apache2 stop
+          echo "Starting application in docker container"
+          docker compose up --build -d
