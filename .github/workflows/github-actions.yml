@@ -40,4 +40,4 @@ jobs:
       - name: Deploy application
         run: |
           echo "Starting application in docker container"
-          docker-compose -f docker-compose.yml up --build -d
+          docker-compose build -d
