@@ -23,8 +23,6 @@ services:
       MYSQL_ROOT_PASSWORD: 1234
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-#    ports:
-#      - "3306:3306"
     networks:
       - net
   nginx:
@@ -36,6 +34,14 @@ services:
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - net
+  localstack:
+    image: localstack/localstack:latest
+    container_name: pb_localstack
+    restart: unless-stopped
+    ports:
+      - "4566:4566"
     networks:
       - net
 networks:

@@ -23,7 +23,7 @@ class AwsService
             'version' => 'latest',
             'region' => 'us-east-1',
             'use_path_style_endpoint' => true,
-            'endpoint' => 'http://localhost:4566',
+            'endpoint' => 'http://localstack:4566',
             'credentials' => [
                 'key' => '1234', //Not actual credentials since localstack is used
                 'secret' => '1234',
@@ -33,7 +33,7 @@ class AwsService
             'version' => 'latest',
             'region' => 'us-east-1',
             'use_path_style_endpoint' => true,
-            'endpoint' => 'http://localhost:4566',
+            'endpoint' => 'http://localstack:4566',
             'credentials' => [
                 'key' => '1234', //Not actual credentials since localstack is used
                 'secret' => '1234',
@@ -89,7 +89,7 @@ class AwsService
                 ],
             ]);
         } catch (AwsException $e) {
-            throw new AwsException('Cant send email', $e->getCode(), [], $e);
+            throw new Exception('Cant send email', $e->getCode(), $e);
         }
     }
 }
