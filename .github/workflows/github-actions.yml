@@ -31,4 +31,5 @@ jobs:
       - name: Deploy application
         run: |
           echo "Starting application in docker container"
-          docker compose up -d --build
+          echo ls
+#          docker compose  up -d --build
