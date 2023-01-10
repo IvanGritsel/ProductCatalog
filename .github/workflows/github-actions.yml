@@ -40,5 +40,4 @@ jobs:
       - name: Deploy application
         run: |
           echo "Starting application in docker container"
-          ls
-          docker compose --file=docker-compose.yml up --build -d
+          docker-compose -f docker-compose.yml up --build -d
