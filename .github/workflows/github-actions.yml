@@ -1,5 +1,5 @@
 name: Deployment
-run-name: deployment action
+run-name: Deployment actions
 on: [ push ]
 jobs:
   test:
@@ -39,8 +39,5 @@ jobs:
           echo "Startup complete"
       - name: Deploy application
         run: |
-#          echo "Stopping services that may occupy needed ports"
-#          sudo service mysql stop
-#          sudo service apache2 stop
           echo "Starting application in docker container"
           docker compose up --build -d
