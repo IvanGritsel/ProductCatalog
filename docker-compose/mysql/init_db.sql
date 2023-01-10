@@ -1,7 +1,5 @@
-CREATE
-DATABASE product_base;
-USE
-product_base;
+CREATE DATABASE product_base;
+USE product_base;
 
 CREATE TABLE product
 (
@@ -75,4 +73,4 @@ CREATE TABLE currency_conversions
     date  DATE NOT NULL,
     PRIMARY KEY (id)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
-INSERT INTO user (id, email, roles, password) VALUE (1, 'mail@mail.com', ['ROLE_ADMIN'], '$2y$13\$pHfF.woqzMCnguTSuHqD2.tVVnNHuGRUXfUhqyIFX.uUFqEc41D02');
+INSERT INTO user (id, email, roles, password) VALUE (1, 'mail@mail.com', '[\"ROLE_ADMIN\"]', '$2y$13$pHfF.woqzMCnguTSuHqD2.tVVnNHuGRUXfUhqyIFX.uUFqEc41D02');

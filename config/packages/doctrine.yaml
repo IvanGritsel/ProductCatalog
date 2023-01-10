@@ -1,6 +1,6 @@
 doctrine:
     dbal:
-        url: mysql://root:1234@127.0.0.1:3306/product_base
+        url: mysql://root:1234@pb_mysql:3306/product_base
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
