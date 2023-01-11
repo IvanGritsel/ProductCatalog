@@ -31,5 +31,5 @@ jobs:
       - name: Deploy application
         run: |
           echo "Starting application in docker container"
-#          echo $GITHUB_WORKSPACE
-          docker-compose --file="../docker-compose.yml" build --progress tty --parallel --pull
+          echo $(ls)
+#          docker-compose --file=../docker-compose.yml build --progress tty --parallel --pull
