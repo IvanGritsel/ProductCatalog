@@ -23,7 +23,9 @@ jobs:
         run: |
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: |
+          echo $(ls)
+          vendor/bin/phpunit
   deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -31,5 +33,4 @@ jobs:
       - name: Deploy application
         run: |
           echo "Starting application in docker container"
-          echo $(ls ../..)
-#          docker-compose --file=../docker-compose.yml build --progress tty --parallel --pull
+          docker-compose --file=../docker-compose.yml build --progress tty --parallel --pull
