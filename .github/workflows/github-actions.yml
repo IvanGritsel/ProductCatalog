@@ -37,12 +37,10 @@ jobs:
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via ssh'
-#          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
           scp ./ deus@${{ secrets.SSH_HOST_ALT }}:'C:\Users\deus\Documents\localhost'
       - name: Build and start application in docker container
-        run: | # Docker might not be up
+        run: |
           echo 'Trying to start application'
-#          ssh deus@${{ secrets.SSH_HOST }}
           ssh deus@${{ secrets.SSH_HOST_ALT }}
           cd C:\Users\deus\Documents\localhost
           docker compose up --build -d
