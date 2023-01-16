@@ -1,6 +1,11 @@
 name: Deployment
 run-name: Deployment actions
-on: [ push ]
+on:
+  push:
+    secrets:
+      access-token:
+        description: 'A token passed from the caller workflow'
+        required: false
 jobs:
   test:
     runs-on: ubuntu-latest
