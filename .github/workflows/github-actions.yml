@@ -29,23 +29,20 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Are secrets even there?
-        run: echo ${{ secrets.SSH_HOST }}
-#      - uses: actions/checkout@v3
-#      - name: SSH key install
-#        uses: shimataro/ssh-key-action@v2 #dfsads
-#        with:
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-#      - name: Copy project files to host
-#        run: |
-#          echo 'Trying to copy files via ssh'
-##          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
-#          scp ./ deus@${{ secrets.SSH_HOST_ALT }}:'C:\Users\deus\Documents\localhost'
-#      - name: Build and start application in docker container
-#        run: | # Docker might not be up
-#          echo 'Trying to start application'
-##          ssh deus@${{ secrets.SSH_HOST }}
-#          ssh deus@${{ secrets.SSH_HOST_ALT }}
-#          cd C:\Users\deus\Documents\localhost
-#          docker compose up --build -d
+      - uses: actions/checkout@v3
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      - name: Copy project files to host
+        run: |
+          echo 'Trying to copy files via ssh'
+#          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
+          scp ./ deus@${{ secrets.SSH_HOST_ALT }}:'C:\Users\deus\Documents\localhost'
+      - name: Build and start application in docker container
+        run: | # Docker might not be up
+          echo 'Trying to start application'
+#          ssh deus@${{ secrets.SSH_HOST }}
+          ssh deus@${{ secrets.SSH_HOST_ALT }}
+          cd C:\Users\deus\Documents\localhost
+          docker compose up --build -d
