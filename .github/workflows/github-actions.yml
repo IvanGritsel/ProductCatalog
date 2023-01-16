@@ -35,21 +35,15 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
-#      - name: Adding known hosts
-#        run: | # IP of host might and will change
-#          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-#          ssh-keyscan -H ${{ secrets.SSH_HOST_ALT }} >> ~/.ssh/known_hosts
       - name: Copy project files to host
         run: |
+          echo 'Trying to copy files via ssh'
 #          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
           scp ./ deus@${{ secrets.SSH_HOST_ALT }}:'C:\Users\deus\Documents\localhost'
       - name: Build and start application in docker container
-        run: # Docker might not be up
+        run: | # Docker might not be up
+          echo 'Trying to start application'
 #          ssh deus@${{ secrets.SSH_HOST }}
           ssh deus@${{ secrets.SSH_HOST_ALT }}
           cd C:\Users\deus\Documents\localhost
           docker compose up --build -d
-#      - name: Build docker container
-#        run: |
-#          echo "Building docker container"
-#          docker compose up --build --progress tty --parallel --pull
