@@ -24,13 +24,32 @@ jobs:
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Execute tests
         run: |
-          echo $(ls)
           vendor/bin/phpunit
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy application
+      - uses: actions/checkout@v3
+      - name: SSH key install
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'placeholder'
+      - name: Adding known hosts
+        run: | # IP of host might and will change
+#          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.SSH_HOST_ALT }} >> ~/.ssh/known_hosts
+      - name: Copy project files to host
         run: |
-          echo "Starting application in docker container"
-          docker-compose --file=../docker-compose.yml build --progress tty --parallel --pull
+#          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
+          scp ./ deus@${{ secrets.SSH_HOST_ALT }}:'C:\Users\deus\Documents\localhost'
+      - name: Build and start application in docker container
+        run: # Docker might not be up
+#          ssh deus@${{ secrets.SSH_HOST }}
+          ssh deus@${{ secrets.SSH_HOST_ALT }}
+          cd C:\Users\deus\Documents\localhost
+          docker compose up --build -d
+#      - name: Build docker container
+#        run: |
+#          echo "Building docker container"
+#          docker compose up --build --progress tty --parallel --pull
