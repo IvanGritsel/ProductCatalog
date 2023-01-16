@@ -37,8 +37,7 @@ jobs:
           known_hosts: 'placeholder_for_known_hosts'
       - name: Adding Known Hosts
         run: |
-          echo ${{ secrets.SSH_HOST_ALT }}
-          ssh-keyscan -H ${{ secrets.SSH_HOST_ALT }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H 10.202.48.136 >> ~/.ssh/known_hosts # Very bad, remove
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via ssh'
