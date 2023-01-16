@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: SSH key install
-        uses: shimataro/ssh-key-action@v2
+        uses: shimataro/ssh-key-action@v2 #dfsads
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
