@@ -35,9 +35,6 @@ jobs:
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
-#      - name: Adding Known Hosts
-#        run: |
-#          ssh-keyscan ${{ secrets.SSH_HOST_ALT }} >> ~/.ssh/known_hosts
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via ssh'
