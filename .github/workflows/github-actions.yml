@@ -38,7 +38,7 @@ jobs:
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via ssh'
-          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
+          rsync -avz ./ deus@${{ secrets.SSH_HOST }}:~\Documents\localhost
       - name: Build and start application in docker container
         run: |
           echo 'Trying to start application'
