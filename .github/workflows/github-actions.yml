@@ -34,11 +34,11 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ''
+          known_hosts: 'placeholder'
       - name: Adding known hosts
         run: |
           echo 'Running ssh keyscan'
-          run ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -vvv -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via ssh'
