@@ -38,10 +38,10 @@ jobs:
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via ssh'
-          rsync -avz ./ deus@${{ secrets.SSH_HOST }}:~\Documents\localhost
+          scp ./ deus@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
       - name: Build and start application in docker container
         run: |
-          echo 'Trying to start application'
+          echo 'Trying to start application. Make sure docker is running on host'
           ssh deus@${{ secrets.SSH_HOST }}
           cd C:\Users\deus\Documents\localhost
           docker compose up --build -d
