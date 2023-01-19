@@ -42,10 +42,10 @@ jobs:
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via scp'
-          scp -vvv -oHostKeyAlgorithms=+ssh-rsa -P ${{ secrets.SSH_HOST_PORT }} ./ server@${{ secrets.SSH_HOST }}:'C:\Users\deus\Documents\localhost'
+          scp -vvv -oHostKeyAlgorithms=+ssh-rsa -P ${{ secrets.SSH_HOST_PORT }} ./ server@${{ secrets.SSH_HOST }}:'C:\Users\server\Documents\localhost'
       - name: Build and start application in docker container
         run: |
           echo 'Trying to start application. Make sure docker is running on host'
           ssh deus@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }}
-          cd C:\Users\deus\Documents\localhost
+          cd C:\Users\server\Documents\localhost
           docker compose up --build -d
