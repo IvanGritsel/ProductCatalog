@@ -49,4 +49,4 @@ jobs:
       - name: Build and start application in docker container
         run: |
           echo 'Trying to start application. Make sure docker is running on host'
-          ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }} "cd C:\Users\server\Documents\localhost && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist && docker compose up --build -d"
+          ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }} "cd C:\Users\server\Documents\localhost && composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist && ${{ secrets.DOCKER_LOGIN }} && docker compose up --build -d"
