@@ -42,7 +42,8 @@ jobs:
       - name: Clearing workdir
         run: |
           ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }}
-          cd 'Documents\localhost'
+          cd Documents
+          cd localhost
           del * /S /Q
           exit
       - name: Copy project files to host
@@ -53,5 +54,7 @@ jobs:
         run: |
           echo 'Trying to start application. Make sure docker is running on host'
           ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }}
-          cd 'Documents\localhost'
+          cd Documents
+          cd localhost
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
           docker compose up --build -d
