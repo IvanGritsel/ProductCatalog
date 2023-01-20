@@ -41,11 +41,13 @@ jobs:
           ssh-keyscan -H -p ${{ secrets.SSH_HOST_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Clearing workdir
         run: |
-          ssh -tt server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }}
+          ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }} "$( cat << 'EOT'
           cd Documents
           cd localhost
           del * /S /Q
           exit
+          EOT
+          )"
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via scp'
