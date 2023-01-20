@@ -39,6 +39,12 @@ jobs:
         run: |
           echo 'Running ssh keyscan'
           ssh-keyscan -H -p ${{ secrets.SSH_HOST_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Clearing workdir
+        run: |
+          ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }}
+          cd 'C:\Users\server\Documents\localhost'
+          del * /S /Q
+          exit
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via scp'
@@ -47,5 +53,5 @@ jobs:
         run: |
           echo 'Trying to start application. Make sure docker is running on host'
           ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }}
-          cd C:\Users\server\Documents\localhost
+          cd 'C:\Users\server\Documents\localhost'
           docker compose up --build -d
