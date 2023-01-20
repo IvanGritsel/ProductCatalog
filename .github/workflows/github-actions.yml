@@ -46,7 +46,7 @@ jobs:
             cd localhost
             del * /S /Q
             exit
-          EOT)"
+            EOT)"
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via scp'
