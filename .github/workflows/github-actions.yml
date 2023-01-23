@@ -41,7 +41,7 @@ jobs:
           ssh-keyscan -H -p ${{ secrets.SSH_HOST_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Clearing
         run: |
-          ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }} "del '.docker/config.json' && cd Documents/localhost && del * /S /Q"
+          ssh server@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_HOST_PORT }} "del .docker\config.json && cd Documents\localhost && del * /S /Q"
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via scp'
