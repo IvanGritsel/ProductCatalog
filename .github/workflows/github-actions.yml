@@ -45,7 +45,7 @@ jobs:
       - name: Copy project files to host
         run: |
           echo 'Trying to copy files via scp'
-          scp -P ${{ secrets.SSH_HOST_PORT }} -r ./* server@${{ secrets.SSH_HOST }}:'C:\Users\server\Documents\localhost'
+          rsync -avz --progress -P ${{ secrets.SSH_HOST_PORT }} -r /. server@${{ secrets.SSH_HOST }}:'C:\Users\server\Documents\localhost'
       - name: Build and start application in docker container
         run: |
           echo 'Trying to start application. Make sure docker is running on host'
