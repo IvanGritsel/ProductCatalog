@@ -46,7 +46,7 @@ jobs:
         run: |
           echo 'Trying to copy files via scp'
           scp -P ${{ secrets.SSH_HOST_PORT }} -r ./* server@${{ secrets.SSH_HOST }}:'C:\Users\server\Documents\localhost'
-          scp -P ${{ secrets.SSH_HOST_PORT }} -r ./.* server@${{ secrets.SSH_HOST }}:'C:\Users\server\Documents\localhost'
+          scp -P ${{ secrets.SSH_HOST_PORT }} -r ./.env server@${{ secrets.SSH_HOST }}:'C:\Users\server\Documents\localhost'
       - name: Build and start application in docker container
         run: |
           echo 'Trying to start application. Make sure docker is running on host'
